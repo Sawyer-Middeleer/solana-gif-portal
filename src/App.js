@@ -20,7 +20,7 @@ const programID = new PublicKey(idl.metadata.address);
 // Set our network to devnet.
 const network = clusterApiUrl('devnet');
 
-// Controls how we want to acknowledge when a transaction is "done".
+// Controls how we want to acknowledge when a transaction is "done"
 const opts = {
   preflightCommitment: "processed"
 }
