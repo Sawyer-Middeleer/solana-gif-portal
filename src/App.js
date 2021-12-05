@@ -178,8 +178,7 @@ const App = () => {
           <div className="color-grid">
             {colorList.map((item, index) => (
               <div className="color-item" key={index} style={{backgroundColor:item.colorCode}}>
-                {item.colorCode}
-                {/* <div style={{backgroundColor:'red'}}>item</div> */}
+                <p class="color-code">{item.colorCode}</p>
               </div>
             ))}
           </div>
@@ -239,7 +238,7 @@ const App = () => {
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`built by @${TWITTER_HANDLE}`}</a>
+          >{`built by Sawyer Middeleer`}</a>
         </div>
       </div>
     </div>
