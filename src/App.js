@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import twitterLogo from './assets/twitter-logo.svg';
-import './App.css';
-import idl from './idl.json';
-import { Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
+import { Connection, PublicKey, clusterApiUrl, Keypair} from '@solana/web3.js';
 import {
   Program, Provider, web3
 } from '@project-serum/anchor';
+import twitterLogo from './assets/twitter-logo.svg';
+import './App.css';
+import idl from './idl.json';
 import kp from './keypair.json';
 
-const { SystemProgram, Keypair } = web3;
+
+// const { SystemProgram, Keypair } = web3;
+const { SystemProgram } = web3;
 
 const arr = Object.values(kp._keypair.secretKey)
 const secret = new Uint8Array(arr)
@@ -28,12 +30,13 @@ const opts = {
 // Constants
 const TWITTER_HANDLE = 'sawyermidddd';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+// const RAINBOW_COLORS = ['#ff0000','#ffa500','#ffff00','#008000','#0000ff','#4b0082','#ee82ee']
 
 const App = () => {
   // State
   const [walletAddress, setWalletAddress] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const [gifList, setGifList] = useState([]);
+  const [colorList, setColorList] = useState([]);
 
   // Actions
   const checkIfWalletIsConnected = async () => {
@@ -72,27 +75,29 @@ const App = () => {
     }
   };
 
-  const sendGif = async () => {
-    if (inputValue.length === 0) {
-      console.log("No gif link given!")
+  const sendColor = async () => {
+    const hexre = new RegExp('/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i');
+
+    if ((inputValue.length === 0) || (hexre.test(inputValue))) {
+      console.log("Please submit a valid hexidecimal color code!")
       return
     }
-    console.log('Gif link:', inputValue);
+    console.log('Color code:', inputValue);
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
   
-      await program.rpc.addGif(inputValue, {
+      await program.rpc.addColor(inputValue, {
         accounts: {
           baseAccount: baseAccount.publicKey,
           user: provider.wallet.publicKey,
         },
       });
-      console.log("GIF successfully sent to program", inputValue)
+      console.log("Color successfully sent to the rainbow!", inputValue)
   
-      await getGifList();
+      await getColorList();
     } catch (error) {
-      console.log("Error sending GIF:", error)
+      console.log("Error sending color code:", error)
     }
   };
 
@@ -109,7 +114,7 @@ const App = () => {
     return provider;
   }
 
-  const createGifAccount = async () => {
+  const createColorAccount = async () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
@@ -123,7 +128,7 @@ const App = () => {
         signers: [baseAccount]
       });
       console.log("Created a new BaseAccount w/ address:", baseAccount.publicKey.toString())
-      await getGifList();
+      await getColorList();
   
     } catch(error) {
       console.log("Error creating BaseAccount account:", error)
@@ -140,41 +145,41 @@ const App = () => {
   );
 
   const renderConnectedContainer = () => {
-    // If we hit this, it means the program account hasn't be initialized.
-    if (gifList === null) {
+    if (colorList === null) {
       return (
         <div className="connected-container">
-          <button className="cta-button submit-gif-button" onClick={createGifAccount}>
-            Do One-Time Initialization For GIF Program Account
+          <button className="cta-button submit-color-button" onClick={createColorAccount}>
+            Do One-Time Initialization For color Program Account
           </button>
         </div>
       )
     } 
-    // Otherwise, we're good! Account exists. User can submit GIFs.
+    // Account exists. User can submit colors.
     else {
       return(
         <div className="connected-container">
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              sendGif();
+              sendColor();
             }}
           >
             <input
+              class='color-input'
               type="text"
-              placeholder="Enter gif link!"
+              placeholder="Add a color (hex code)"
               value={inputValue}
               onChange={onInputChange}
             />
-            <button type="submit" className="cta-button submit-gif-button">
+            <button type="submit" className="cta-button submit-color-button">
               Submit
             </button>
           </form>
-          <div className="gif-grid">
-            {/* We use index as the key instead, also, the src is now item.gifLink */}
-            {gifList.map((item, index) => (
-              <div className="gif-item" key={index}>
-                <img src={item.gifLink} />
+          <div className="color-grid">
+            {colorList.map((item, index) => (
+              <div className="color-item" key={index} style={{backgroundColor:item.colorCode}}>
+                {item.colorCode}
+                {/* <div style={{backgroundColor:'red'}}>item</div> */}
               </div>
             ))}
           </div>
@@ -192,25 +197,25 @@ const App = () => {
     return () => window.removeEventListener('load', onLoad);
   }, []);
 
-  const getGifList = async() => {
+  const getColorList = async() => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
       const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
       
       console.log("Got the account", account)
-      setGifList(account.gifList)
+      setColorList(account.colorList)
   
     } catch (error) {
-      console.log("Error in getGifList: ", error)
-      setGifList(null);
+      console.log("Error in getColorList: ", error)
+      setColorList(null);
     }
   }
   
   useEffect(() => {
     if (walletAddress) {
-      console.log('Fetching GIF list...');
-      getGifList()
+      console.log('Fetching colors...');
+      getColorList()
     }
   }, [walletAddress]);
 
@@ -219,9 +224,9 @@ const App = () => {
 			{/* This was solely added for some styling fanciness */}
 			<div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
-          <p className="header">Random GIF Portal</p>
+          <p className="header">Infinite Rainbow</p>
           <p className="sub-text">
-            View your GIF collection in the metaverse ✨
+            A digital rainbow created by people of the world on the Solana blockchain
           </p>
           {/* Add the condition to show this only if we don't have a wallet address */}
           {!walletAddress && renderNotConnectedContainer()}
@@ -234,7 +239,7 @@ const App = () => {
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`built by @${TWITTER_HANDLE} with buildspace`}</a>
+          >{`built by @${TWITTER_HANDLE}`}</a>
         </div>
       </div>
     </div>

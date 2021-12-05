@@ -1,6 +1,6 @@
 .App {
   height: 100vh;
-  background-color: #1a202c;
+  background: -webkit-linear-gradient(top left, #d1efff, white);
   overflow: scroll;
   text-align: center;
 }
@@ -24,45 +24,49 @@
   margin: 0;
   font-size: 50px;
   font-weight: bold;
-  color: white;
+  color: #f4affc;
+  text-shadow: 5px 5px 5px #35aee2;
 }
 
 .sub-text {
   font-size: 25px;
-  color: white;
+  color: #f4affc;
 }
 
 .gradient-text {
-  background: -webkit-linear-gradient(left, #60c657 30%, #35aee2 60%);
+  background: -webkit-linear-gradient(left, #f4affc, #35aee2);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .cta-button {
-  height: 45px;
+  height: 44px;
   border: 0;
   width: auto;
   padding-left: 40px;
   padding-right: 40px;
   border-radius: 10px;
+  margin: 10px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   color: white;
+  background: -webkit-linear-gradient(left, #f4affc, #35aee2);
 }
 
 .connect-wallet-button {
-  background: -webkit-linear-gradient(left, #60c657, #35aee2);
+  background: -webkit-linear-gradient(left, #f4affc, #35aee2);
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
 }
 
-.submit-gif-button {
-  background: -webkit-linear-gradient(left, #4e44ce, #35aee2);
+.submit-color-button {
+  background: -webkit-linear-gradient(left, #f4affc, #35aee2);
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
   margin-left: 10px;
+  box-shadow: 5px 5px 5px #35aee2;
 }
 
 .footer-container {
@@ -82,12 +86,12 @@
 }
 
 .footer-text {
-  color: white;
+  color: #0a0908;
   font-size: 16px;
   font-weight: bold;
 }
 
-.gif-grid {
+.color-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   grid-gap: 1.5rem;
@@ -96,7 +100,7 @@
   padding: 0;
 }
 
-.gif-grid .gif-item {
+.color-grid .color-item {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -104,7 +108,7 @@
   align-self: center;
 }
 
-.gif-item img {
+.color-item img {
   width: 100%;
   height: 300px;
   border-radius: 10px;
@@ -115,16 +119,35 @@
   display: inline-block;
   color: white;
   padding: 10px;
-  width: 50%;
-  height: 60px;
+  width: 30%;
+  height: 44px;
   font-size: 16px;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.25);
+  border-color: #35aee2;
   border: none;
   border-radius: 10px;
   margin: 50px auto;
 }
-
+/* 
 .connected-container button {
   height: 50px;
+} */
+
+.color-item {
+  display: block;
+  float: left;
+  width: 94px;
+  height: 94px;
+  margin: 2px;
+  border-radius: 16%;
+  color: black;
+  box-shadow: 5px 5px 5px #35aee2;
 }
+
+input.color-input {
+  /* height: 10%;
+  color: white; */
+  font-weight: lighter;
+  box-shadow: 5px 5px 5px #35aee2;
+}
+
