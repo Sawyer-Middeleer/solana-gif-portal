@@ -79,10 +79,8 @@ const App = () => {
     const hexre = new RegExp('/^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i');
 
     if ((inputValue.length === 0) || (hexre.test(inputValue))) {
-      console.log("Please submit a valid hexidecimal color code!")
       return
     }
-    console.log('Color code:', inputValue);
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
@@ -93,7 +91,6 @@ const App = () => {
           user: provider.wallet.publicKey,
         },
       });
-      console.log("Color successfully sent to the rainbow!", inputValue)
   
       await getColorList();
     } catch (error) {
@@ -202,7 +199,6 @@ const App = () => {
       const program = new Program(idl, programID, provider);
       const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
       
-      console.log("Got the account", account)
       setColorList(account.colorList)
   
     } catch (error) {
@@ -213,14 +209,12 @@ const App = () => {
   
   useEffect(() => {
     if (walletAddress) {
-      console.log('Fetching colors...');
       getColorList()
     }
   }, [walletAddress]);
 
   return (
     <div className="App">
-			{/* This was solely added for some styling fanciness */}
 			<div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
           <p className="header">Infinite Rainbow</p>

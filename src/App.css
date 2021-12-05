@@ -116,11 +116,17 @@
 
 .color-grid {
   display: grid;
-  grid-auto-flow: column;
+  /* grid-auto-flow: column;
   gap: 16px;
   align-items: center;
   justify-items: center;
-  margin: 25px 120px 75px 120px;
+  margin: 25px 120px 75px 120px; */
+  /* grid-template-columns: repeat(auto-fit, minmax(300px, 2fr)); */
+  grid-template-columns: repeat(auto-fit, minmax(180px, 2fr)); 
+  grid-gap: 1.5rem;
+  justify-items: center;
+  margin: 0;
+  padding: 0
 }
 
 .color-grid .color-item {
