@@ -52,9 +52,7 @@ const App = () => {
             response.publicKey.toString()
           );
 
-          /*
-           * Set the user's publicKey in state to be used later
-           */
+
           setWalletAddress(response.publicKey.toString());
         }
       } else {
@@ -217,11 +215,10 @@ const App = () => {
     <div className="App">
 			<div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
-          <p className="header">Infinite Rainbow</p>
+          <p className="header">Infinite Rainbow (Live on Devnet!)</p>
           <p className="sub-text">
             A digital rainbow created by people of the world on the Solana blockchain
           </p>
-          {/* Add the condition to show this only if we don't have a wallet address */}
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>
