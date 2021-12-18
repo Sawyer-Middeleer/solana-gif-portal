@@ -217,7 +217,10 @@ const App = () => {
         <div className="header-container">
           <p className="header">Infinite Rainbow (Live on Devnet!)</p>
           <p className="sub-text">
-            A digital rainbow created by people of the world on the Solana blockchain
+            A digital rainbow created by people of the world on the Solana blockchain. 
+          </p>
+          <p>
+          Check out our <a href="https://explorer.solana.com/address/CX3B1Cy76tCXBWsf1njTHHvKivicW2NgPBATKp6Dqs82?cluster=devnet">Program Account</a>.
           </p>
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
